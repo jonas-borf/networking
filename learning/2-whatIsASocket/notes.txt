@@ -1,0 +1,6 @@
+There are mainly two types of internet sockets
+  1. Stream Sockets:
+    These are reliable two-way connected communication streams. Packets are recieved in the order they are sent. These are error-free.
+  2. Datagram Sockets:
+    These are not as reliable. Packets may or may not be recieved in order. Packets may or may not be recieved. They are prone to errors. Used when fast transfer is needed/more important than error-free.
+
