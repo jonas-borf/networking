@@ -64,3 +64,15 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 int send(int sockfd, const void *msg, int len, int flags);
 
 int recv(int sockfd, void *buf, int len, int flags);
+
+int sendto(int sockfd, const void *msg, int len, unsigned int flags,
+           const struct sockaddr *to, socklen_t tolen);
+
+int recvfrom(int sockfd, void *buf, int len, unsigned int flags,
+             struct sockaddr *from, int *fromlen);
+
+int shutdown(int sockfd, int how);
+
+int getpeername(int sockfd, struct sockaddr *addr, int *addrlen);
+
+int gethostname(char *hostname, size_t size);
