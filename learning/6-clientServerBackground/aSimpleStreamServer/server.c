@@ -34,7 +34,7 @@ void *get_in_addr(struct sockaddr *sa)
     return &(((struct sockaddr_in*)sa)->sin_addr);
   }
 
-  return &(((struct sockaddr_in6*)sa)->sin_addr);
+  return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
 int main(void)
@@ -46,7 +46,7 @@ int main(void)
   socklen_t sin_size;
   struct sigaction sa;
   int yes=1;
-  char s[INET6_ADDRLEN];
+  char s[INET6_ADDRSTRLEN];
   int rv;
 
   memset(&hints, 0, sizeof hints);
@@ -66,13 +66,13 @@ int main(void)
       continue;
     }
     
-    if (setsockopt(sockft, SOL_SOCKET, SO_REUSEADDR, &yes,
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
                    sizeof(int)) == -1) {
       perror("setsockopt");
       exit(1);
     }
 
-    if (bind(sockfd, p->ai_addr, p->ai_addr, p->ai_addrlen) == -1) {
+    if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
       close(sockfd);
       perror("server: bind");
       continue;
@@ -93,10 +93,10 @@ int main(void)
     exit(1);
   }
 
-  sa.sa_handler = sigchild_handler; // reap all dead processes
+  sa.sa_handler = sigchld_handler; // reap all dead processes
   sigemptyset(&sa.sa_mask);
   sa.sa_flags = SA_RESTART;
-  if (sigaction(SIGCHILD, &sa, NULL) == -1) {
+  if (sigaction(SIGCHLD, &sa, NULL) == -1) {
     perror("sigaction");
     exit(1);
   }
